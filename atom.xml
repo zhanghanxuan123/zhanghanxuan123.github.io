@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>张瀚漩的博客</title>
+  <subtitle>How bad you want it</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://zhanghanxuan123.github.io/"/>
+  <updated>2017-03-21T16:43:10.634Z</updated>
+  <id>http://zhanghanxuan123.github.io/</id>
+  
+  <author>
+    <name>张瀚漩</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>My first blog</title>
+    <link href="http://zhanghanxuan123.github.io/2017/03/22/My-first-blog/"/>
+    <id>http://zhanghanxuan123.github.io/2017/03/22/My-first-blog/</id>
+    <published>2017-03-21T16:21:01.000Z</published>
+    <updated>2017-03-21T16:43:10.634Z</updated>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;Test&quot;&gt;&lt;a href=&quot;#Test&quot; class=&quot;headerlink&quot; title=&quot;Test&quot;&gt;&lt;/a&gt;Test&lt;/h1&gt;&lt;p&gt;~&lt;code&gt;`````
+&lt;/code&gt;&lt;br&gt;&lt;code&gt;`
+&lt;/code&gt;&lt;br&gt;&lt;code&gt;`
+&lt;/code&gt;&lt;br&gt;
+    
+    </summary>
+    
+      <category term="日志" scheme="http://zhanghanxuan123.github.io/categories/%E6%97%A5%E5%BF%97/"/>
+    
+    
+      <category term="随笔" scheme="http://zhanghanxuan123.github.io/tags/%E9%9A%8F%E7%AC%94/"/>
+    
+  </entry>
+  
+</feed>
