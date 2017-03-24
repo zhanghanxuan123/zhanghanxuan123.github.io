@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+    <!-- 
+        © Material Theme
+        https://github.com/viosey/hexo-theme-material
+        Version: 1.3.0 -->
+
+    <!-- Title -->
+    
+    <title>
+        
+            Retrofit+RxJava优雅地实现图文上传功能 | 
+        
+        Leo`Blog
+    </title>
+
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="/img/favicon.png">
+    <link rel="icon" sizes="192x192" href="/img/favicon.png">
+    <link rel="apple-touch-icon" href="/img/favicon.png">
+
+    <!-- Meta & Info -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0097A7">
+    <meta name="author" content="LeoZhang">
+    <meta name="description" content="宠辱不惊 岁月静好">
+    <meta name="keywords" content="Android Dev,RxJava,Retrofit,HTTP,框架">
+
+    <!--iOS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-title" content="Title">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="480">
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Leo`Blog">
+
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="http://zhanghanxuan123.github.io">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Retrofit+RxJava优雅地实现图文上传功能 | Leo`Blog">
+    <meta property="og:description" content="宠辱不惊 岁月静好">
+    <meta property="og:article:tag" content="RxJava,Retrofit,HTTP,框架"> 
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+
+    <!-- Import CSS -->
+    <link rel="stylesheet" href="/css/material.min.css">
+    <link rel="stylesheet" href="/css/style.min.css">
+    <!-- Config CSS -->
+
+
+<!-- Other Styles -->
+<style>
+  body, html {
+    font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+  }
+
+  a {
+    color: #00838F;
+  }
+
+  .mdl-card__media,
+  #search-label,
+  #search-form-label:after,
+  #scheme-Paradox .hot_tags-count,
+  #scheme-Paradox .sidebar_archives-count,
+  #scheme-Paradox .sidebar-colored .sidebar-header,
+  #scheme-Paradox .sidebar-colored .sidebar-badge{
+    background-color: #0097A7 !important;
+  }
+
+  /* Sidebar User Drop Down Menu Text Color */
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus {
+    color: #0097A7 !important;
+  }
+
+  #post_entry-right-info,
+  .sidebar-colored .sidebar-nav li:hover > a,
+  .sidebar-colored .sidebar-nav li:hover > a i,
+  .sidebar-colored .sidebar-nav li > a:hover,
+  .sidebar-colored .sidebar-nav li > a:hover i,
+  .sidebar-colored .sidebar-nav li > a:focus i,
+  .sidebar-colored .sidebar-nav > .open > a,
+  .sidebar-colored .sidebar-nav > .open > a:hover,
+  .sidebar-colored .sidebar-nav > .open > a:focus,
+  #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a {
+    color: #0097A7 !important;
+  }
+
+  .toTop {
+    background: #757575 !important;
+  }
+
+  .material-layout .material-post>.material-nav,
+  .material-layout .material-index>.material-nav,
+  .material-nav a {
+    color: #757575;
+  }
+
+  #scheme-Paradox .MD-burger-layer {
+    background-color: #757575;
+  }
+
+  #scheme-Paradox #post-toc-trigger-btn {
+    color: #757575;
+  }
+
+  .post-toc a:hover {
+    color: #00838F;
+    text-decoration: underline;
+  }
+</style>
+
+
+<!-- Theme Background Related-->
+
+    <style>
+      body{
+        background-color: #F5F5F5;
+      }
+
+      /* blog_info bottom background */
+      #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text{
+        background-color: #fff;
+      }
+    </style>
+
+
+
+
+<!-- Fade Effect -->
+
+    <style>
+      .fade {
+        transition: all 800ms linear;
+        -webkit-transform: translate3d(0,0,0);
+        -moz-transform: translate3d(0,0,0);
+        -ms-transform: translate3d(0,0,0);
+        -o-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+        opacity: 1;
+      }
+
+      .fade.out{
+        opacity: 0;
+      }
+    </style>
+
+
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/queue.js"></script>
+
+    <!-- UC Browser Compatible -->
+    <script>
+        var agent = navigator.userAgent.toLowerCase();
+        if(agent.indexOf('ucbrowser')>0) {
+            document.write("<link rel=\"stylesheet\" href=\"/css/uc.css\">");
+            alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+        }
+    </script>
+
+    
+    <!-- Baidu Analytics -->
+    <script>
+        var _hmt = _hmt || [];
+        (function() {var hm = document.createElement('script');
+        hm.src = 'https://hm.baidu.com/hm.js?18883991476';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+    
+
+    
+
+    <!-- Bing Background -->
+    
+
+    <!-- Custom Head -->
+    
+</head>
+
+
+    
+        <body id="scheme-Paradox" class="lazy">
+            <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+                
+
+                <!-- Main Container -->
+                <main class="material-layout__content" id="main">
+
+                    <!-- Top Anchor -->
+                    <div id="top"></div>
+
+                    
+                        <!-- Hamburger Button -->
+                        <button class="MD-burger-icon sidebar-toggle">
+                            <span class="MD-burger-layer"></span>
+                        </button>
+                    
+
+                    <!-- Post TOC -->
+
+    
+    <!-- Back Button -->
+    <!--
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
+        </a>
+    </div>
+    -->
+
+    <!-- Left aligned menu below button -->
+    <button id="post-toc-trigger-btn"
+        class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
+
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#前言"><span class="post-toc-number">1.</span> <span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#正文"><span class="post-toc-number">2.</span> <span class="post-toc-text">正文</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Android端实现图片上传的两种方式"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">Android端实现图片上传的两种方式</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#multipart-form-data"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">multipart/form-data</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Retrofit中对multipart-form-data的封装"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">Retrofit中对multipart/form-data的封装</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#代码实现"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">代码实现</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#接收图片的接口"><span class="post-toc-number">2.4.1.</span> <span class="post-toc-text">接收图片的接口</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#网络请求类"><span class="post-toc-number">2.4.2.</span> <span class="post-toc-text">网络请求类</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Activity中发送文件的方法"><span class="post-toc-number">2.4.3.</span> <span class="post-toc-text">Activity中发送文件的方法</span></a></li></ol></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#注意"><span class="post-toc-number">2.5.</span> <span class="post-toc-text">注意</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#返回结果"><span class="post-toc-number">2.6.</span> <span class="post-toc-text">返回结果</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#结尾"><span class="post-toc-number">3.</span> <span class="post-toc-text">结尾</span></a></li></ol>
+
+        <!--
+        <li class="mdl-menu__item">
+            Some Action
+        </li>
+        -->
+    </ul>
+
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+    <!-- Paradox Post Header -->
+    
+        <!-- Custom Thumbnail -->
+        <div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(/img/upload_pic_bg.jpg)">
+    
+            <p class="article-headline-p">
+                Retrofit+RxJava优雅地实现图文上传功能
+            </p>
+        </div>
+
+
+
+
+
+                
+                    <!-- Paradox Post Info -->
+                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/avatar.jpg" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>LeoZhang</strong>
+        <span>3月 23, 2017</span>
+    </div>
+
+    <div class="section-spacer"></div>
+
+    <!-- Favorite -->
+    <!--
+        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+            <i class="material-icons" role="presentation">favorite</i>
+            <span class="visuallyhidden">favorites</span>
+        </button>
+    -->
+
+    <!-- Qrcode -->
+    
+
+    <!-- Tags (bookmark) -->
+    
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/RxJava-Retrofit-HTTP-框架/">RxJava,Retrofit,HTTP,框架</a>
+    </ul>
+    
+
+    <!-- Share -->
+    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+
+    
+        
+    
+
+    <!-- Share Weibo -->
+    
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=Retrofit+RxJava优雅地实现图文上传功能&url=http://zhanghanxuan123.github.io//2017/03/23/upload-file/index.html&pic=&searchPic=false&style=simple" target="_blank">
+            <li class="mdl-menu__item">
+                分享到微博
+            </li>
+        </a>
+    
+
+    <!-- Share Twitter -->
+    
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=Retrofit+RxJava优雅地实现图文上传功能&url=http://zhanghanxuan123.github.io//2017/03/23/upload-file/index.html&via=LeoZhang" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Twitter
+            </li>
+        </a>
+    
+
+    <!-- Share Facebook -->
+    
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://zhanghanxuan123.github.io//2017/03/23/upload-file/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Facebook
+            </li>
+        </a>
+    
+
+    <!-- Share Google+ -->
+    
+
+    <!-- Share LinkedIn -->
+    
+
+    <!-- Share QQ -->
+    
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=Leo`Blog&title=Retrofit+RxJava优雅地实现图文上传功能&summary=宠辱不惊 岁月静好&pics=http://zhanghanxuan123.github.io/img/favicon.png&url=http://zhanghanxuan123.github.io/2017/03/23/upload-file/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 QQ
+            </li>
+        </a>
+    
+
+    <!-- Share Telegram -->
+    
+</ul>
+
+</div>
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近工作室的项目需要用到图片上传的功能，以前自己写过这样的功能不过代码很乱，故自己用Retrofit+Rxjava重新实现了下。What？你还不知道Retrofit和RxJava? </p>
+<p>请戳这里</p>
+<ul>
+<li><a href="http://duanyytop.github.io/2016/08/06/Retrofit%E7%94%A8%E6%B3%95%E8%AF%A6%E8%A7%A3/?utm_source=tuicool&amp;utm_medium=referral" target="_blank" rel="external">Retrofit用法详解</a></li>
+<li><a href="http://gank.io/post/560e15be2dca930e00da1083#toc_1" target="_blank" rel="external">给 Android 开发者的 RxJava 详解</a></li>
+<li><a href="http://gank.io/post/56e80c2c677659311bed9841" target="_blank" rel="external">RxJava 与 Retrofit 结合的最佳实践</a></li>
+</ul>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><h2 id="Android端实现图片上传的两种方式"><a href="#Android端实现图片上传的两种方式" class="headerlink" title="Android端实现图片上传的两种方式"></a>Android端实现图片上传的两种方式</h2><ul>
+<li><p>Base64编码</p>
+<p>手机端先将图片压缩，然后转换为base64字节流的形式封装到Json字符串，再将封装好的Json上传到服务器。此种方法手机端使用十分方便简单，不过对于服务器端来说处理就有些麻烦，也没有体现出标题所强调的“优雅”，因此本文不对该方法进行重点介绍。</p>
+</li>
+<li><p>文件上传</p>
+<p>通过文件上传的方法将图片传到服务器。</p>
+</li>
+</ul>
+<h2 id="multipart-form-data"><a href="#multipart-form-data" class="headerlink" title="multipart/form-data"></a>multipart/form-data</h2><p>要了解如何通过网络上传文件，首先我们得了解 <a href="http://blog.csdn.net/five3/article/details/7181521" target="_blank" rel="external">HTTP协议之multipart/form-data</a>。</p>
+<h2 id="Retrofit中对multipart-form-data的封装"><a href="#Retrofit中对multipart-form-data的封装" class="headerlink" title="Retrofit中对multipart/form-data的封装"></a>Retrofit中对multipart/form-data的封装</h2><p>由于Retrofit是一个网络库的封装，具体的网络请求默认是使用OkHttp，Retrofit对于multipart的支持最终也会转换成OkHttp的实现。</p>
+<p>在Retrofit中实现一个multipart上传：<br><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="variable">@Multipart</span></div><div class="line"><span class="variable">@POST</span>(<span class="string">"upload"</span>)</div><div class="line">Call&lt;ResponseBody&gt; uploadFile(</div><div class="line">    <span class="variable">@Part</span>(<span class="string">"description"</span>) RequestBody description,</div><div class="line">    <span class="variable">@Part</span> MultipartBody.Part file);</div></pre></td></tr></table></figure></p>
+<p>其中：</p>
+<p>@retrofit2.http.Multipart 注解: 标记一个请求是multipart/form-data类型,需要和@retrofit2.http.POST一同使用，参数可以是 MultipartBody.Part 或 RequestBody 。<br>@retrofit2.http.Part 注解: 代表Multipart里的一项数据,即用${bound}分隔的内容块。</p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><p>上面BB了那么多，你大概也对此有一些了解了，不上具体代码怎么行？</p>
+<h3 id="接收图片的接口"><a href="#接收图片的接口" class="headerlink" title="接收图片的接口"></a>接收图片的接口</h3><p>本来想自己写个Servlet接收客户端的图片，但嫌麻烦(不会)直接用了<a href="https://www.juhe.cn/docs/api/id/153/aid/493" target="_blank" rel="external">聚合数据</a>的接口进行调试。<br><figure class="highlight clojure"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    <span class="string">"error_code"</span>: <span class="number">0</span>,</div><div class="line">    <span class="string">"reason"</span>: <span class="string">"操作成功"</span>,</div><div class="line">    <span class="string">"result"</span>: &#123;</div><div class="line">        <span class="string">"住址"</span>: <span class="string">"武汉市江岸区永清路****"</span>,</div><div class="line">        <span class="string">"保留"</span>: <span class="string">""</span>,</div><div class="line">        <span class="string">"公民身份号码"</span>: <span class="string">"42010619510609****"</span>,</div><div class="line">        <span class="string">"出生"</span>: <span class="string">"1951-06-09"</span>,</div><div class="line">        <span class="string">"头像"</span>: <span class="string">""</span>,/*Base64字符串*/</div><div class="line">        <span class="string">"姓名"</span>: <span class="string">"彭*"</span>,</div><div class="line">        <span class="string">"性别"</span>: <span class="string">"男"</span>,</div><div class="line">        <span class="string">"民族"</span>: <span class="string">"汉"</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>这是接口返回的数据，我们由此新建一个Person.java类</p>
+<h3 id="网络请求类"><a href="#网络请求类" class="headerlink" title="网络请求类"></a>网络请求类</h3><p>下面是三个实现网络请求类<br><figure class="highlight less"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// OneService.java</span></div><div class="line"><span class="selector-tag">public</span> <span class="selector-tag">interface</span> <span class="selector-tag">OneService</span> &#123;</div><div class="line">     <span class="variable">@Multipart</span></div><div class="line">     <span class="variable">@POST</span>(<span class="string">"certificates/query.php"</span>)</div><div class="line">     Observable&lt;Person&gt;uploadFile(<span class="variable">@PartMap</span> Map&lt;String,RequestBody&gt; params);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<figure class="highlight pony"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// OneRetrofit.java</span></div><div class="line">public <span class="class"><span class="keyword">class</span> <span class="title">OneRetrofit</span> &#123;</span></div><div class="line">    final <span class="type">OneService</span> mService;</div><div class="line">    private <span class="type">String</span> <span class="type">OneBase1</span> = <span class="string">"http://v.juhe.cn/"</span>;</div><div class="line">    <span class="type">OneRetrofit</span>() &#123;</div><div class="line">        <span class="type">Gson</span> gson = <span class="function"><span class="keyword">new</span> <span class="title">GsonBuilder</span>()</span></div><div class="line">                .<span class="title">setDateFormat</span>("yyyy-<span class="type">MM</span>-dd")</div><div class="line">                .<span class="title">create</span>();</div><div class="line">        <span class="title">Retrofit</span> <span class="title">retrofit</span> = <span class="title">new</span> <span class="title">Retrofit</span>.<span class="title">Builder</span>()</div><div class="line">                .<span class="title">baseUrl</span>(<span class="type">OneBase1</span>)</div><div class="line">                .<span class="title">addConverterFactory</span>(<span class="type">GsonConverterFactory</span>.create(gson))</div><div class="line">                .<span class="title">addCallAdapterFactory</span>(<span class="type">RxJavaCallAdapterFactory</span>.create())</div><div class="line">                .<span class="title">build</span>();</div><div class="line">        <span class="title">mService</span> = <span class="title">retrofit</span>.<span class="title">create</span>(<span class="type">OneService</span>.class);</div><div class="line">    &#125;</div><div class="line">    <span class="title">public</span> <span class="title">OneService</span> <span class="title">getService</span>()&#123;</div><div class="line">        <span class="title">return</span> <span class="title">mService</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight smali"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">// OneHttp.java<span class="keyword"></span></div><div class="line">public class OneHttp &#123;</div><div class="line">   <span class="keyword"> private</span><span class="keyword"> static</span> OneService mService;</div><div class="line">   <span class="keyword"> protected</span><span class="keyword"> static</span><span class="keyword"> final</span> Object<span class="built_in"> monitor </span>=<span class="built_in"> new </span>Object();</div><div class="line">   <span class="keyword"> public</span><span class="keyword"> static</span> OneService getServiceInstance()&#123;</div><div class="line">        synchronized (monitor)&#123;</div><div class="line">            if(mService==null)&#123;</div><div class="line">                mService =<span class="built_in"> new </span>OneRetrofit().getService();</div><div class="line">            &#125;</div><div class="line">           <span class="built_in"> return </span>mService;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我们在 uploadFile 的这个方法用了@PartMap注解用来标识一个Map类型的参数。Map的key为String  类型，代表上传的键值对的key(与服务器接受的key对应),value即为RequestBody。</p>
+<p>我们使用这个网络请求用了单例模式，当然这个简单的Demo用不需要用到，但这样写总是一个好习惯。</p>
+<h3 id="Activity中发送文件的方法"><a href="#Activity中发送文件的方法" class="headerlink" title="Activity中发送文件的方法"></a>Activity中发送文件的方法</h3><p>首先我们先看发送文件时需要的参数<br><img src="http://i4.buimg.com/589057/5bbb28411a59fdfc.png" alt="Markdown"></p>
+<figure class="highlight arduino"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">void</span> uploadPic() &#123;</div><div class="line">        <span class="built_in">File</span> file = <span class="keyword">new</span> <span class="built_in">File</span>(Environment.getExternalStorageDirectory()+<span class="built_in">File</span>.separator+<span class="string">"/Tencent/QQ_Images/-21cac07b2f723e7a.jpg"</span>);</div><div class="line">        Map&lt;<span class="keyword">String</span>,RequestBody&gt; params = <span class="keyword">new</span> HashMap&lt;&gt;();</div><div class="line">        params.<span class="built_in">put</span>(<span class="string">"key"</span>,toRequestBody(<span class="string">"你申请的Key"</span>));</div><div class="line">        params.<span class="built_in">put</span>(<span class="string">"cardType"</span>,toRequestBody(<span class="string">"2"</span>));</div><div class="line">        params.<span class="built_in">put</span>(<span class="string">"pic\"; filename=\""</span>+file.getName()+<span class="string">""</span>,RequestBody.create(MediaType.parse(<span class="string">"image/jpg"</span>),file));</div><div class="line">        Observable&lt;Person&gt; observale = OneHttp.getServiceInstance().uploadFile(params);</div><div class="line">        observale.subscribeOn(Schedulers.io())</div><div class="line">                .observeOn(AndroidSchedulers.mainThread())</div><div class="line">                .subscribe(<span class="keyword">new</span> Observer&lt;Person&gt;() &#123;</div><div class="line">                    @Override</div><div class="line">                    <span class="keyword">public</span> <span class="keyword">void</span> onCompleted() &#123;</div><div class="line">                    &#125;</div><div class="line">                    @Override</div><div class="line">                    <span class="keyword">public</span> <span class="keyword">void</span> onError(Throwable e) &#123;</div><div class="line">                        Log.d(<span class="string">"zhang"</span>,e.toString());</div><div class="line">                    &#125;</div><div class="line">                    @Override</div><div class="line">                    <span class="keyword">public</span> <span class="keyword">void</span> onNext(Person person) &#123;</div><div class="line">                        Log.d(<span class="string">"zhanghanxuan"</span>,<span class="string">"1"</span>);</div><div class="line">                        Log.d(<span class="string">"zhanghanxuan"</span>, person.getReason() +<span class="string">"/"</span>+person.getError_code()+<span class="string">"/"</span>+person.<span class="built_in">getResult</span>().<span class="built_in">get</span>姓名()+person.<span class="built_in">getResult</span>().<span class="built_in">get</span>出生()+person.<span class="built_in">getResult</span>().<span class="built_in">get</span>性别()+person.<span class="built_in">getResult</span>().<span class="built_in">get</span>民族()+person.<span class="built_in">getResult</span>().<span class="built_in">get</span>住址());</div><div class="line">                        Log.d(<span class="string">"zhanghanxuan"</span>,<span class="string">"3"</span>);</div><div class="line">                    &#125;</div><div class="line">                &#125;);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>上面方法中，我们也new了一个Map，并把服务器需要的参数的Key和Value传进去。这里需要注意的是，设置文件的时候，相对应的key很奇怪，例如上例pic\”; filename=\””+file.getName()+””,前面的pic就是与服务器对应的key，后面filename是服务器得到的文件名，这里参数很怪，刚开始我直接写pic一直报错。</p>
+<p>上面还用到了一个toRequestBody()这个方法，这个方法主要功能是将文字参数类型转换为“text/plain”<br><figure class="highlight cs"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> RequestBody <span class="title">toRequestBody</span>(<span class="params">String <span class="keyword">value</span></span>)</span>&#123;</div><div class="line">        RequestBody mRequestBody = RequestBody.create(MediaType.parse(<span class="string">"text/plain"</span>),<span class="keyword">value</span>);</div><div class="line">        <span class="keyword">return</span> mRequestBody;</div><div class="line">    &#125;</div></pre></td></tr></table></figure></p>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><ol>
+<li>一点要在onError()这个函数中打印Log,这样方便找到错误。</li>
+<li>不要忘了在MD中声明读取文件权限和网络声明权限。<figure class="highlight applescript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;uses-permission android:<span class="built_in">name</span>=<span class="string">"android.permission.MOUNT_UNMOUNT_FILESYSTEMS"</span>/&gt;</div><div class="line">    &lt;uses-permission android:<span class="built_in">name</span>=<span class="string">"android.permission.WRITE_EXTERNAL_STORAGE"</span>/&gt;</div><div class="line">    &lt;uses-permission android:<span class="built_in">name</span>=<span class="string">"android.permission.READ_EXTERNAL_STORAGE"</span>/&gt;</div><div class="line">    &lt;uses-permission android:<span class="built_in">name</span>=<span class="string">"android.permission.INTERNET"</span>/&gt;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="返回结果"><a href="#返回结果" class="headerlink" title="返回结果"></a>返回结果</h2><p> <img src="C:\Users\张瀚漩\Desktop\result.jpg" alt="image"></p>
+<h1 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h1><p>以上就是简单的文件上传功能。你可以继续完善它，比如多文件上传等。Retrofit和RxJava实现写代码的姿势变得如此优雅简洁，虽然很多代码量看似增加不少，但代码最重要的不是简洁和可读性吗？<br>以后我会继续分享关于目前主流框架的使用心得。</p>
+
+    
+
+    
+</div>
+
+
+                
+
+                <!-- Post Comments -->
+                
+                    
+
+
+
+
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2017/03/22/My-first-blog/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
+
+
+                    
+                        <!-- Overlay For Active Sidebar -->
+<div class="sidebar-overlay"></div>
+
+<!-- Material sidebar -->
+<aside id="sidebar" class="sidebar sidebar-colored sidebar-fixed-left" role="navigation">
+    <div id="sidebar-main">
+        <!-- Sidebar Header -->
+        <div class="sidebar-header header-cover" style="background-image: url(/img/sidebar_header.jpg);">
+    <!-- Top bar -->
+    <div class="top-bar"></div>
+
+    <!-- Sidebar toggle button -->
+    <button type="button" class="sidebar-toggle mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: initial;" data-upgraded=",MaterialButton,MaterialRipple">
+        <i class="material-icons">clear_all</i>
+        <span class="mdl-button__ripple-container">
+            <span class="mdl-ripple">
+            </span>
+        </span>
+    </button>
+
+    <!-- Sidebar Avatar -->
+    <div class="sidebar-image">
+        <img src="/img/avatar.jpg" alt="LeoZhang's avatar">
+    </div>
+
+    <!-- Sidebar Email -->
+    <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
+        zhanghanxuan58@gmail.com
+        <b class="caret"></b>
+    </a>
+</div>
+
+
+        <!-- Sidebar Navigation  -->
+        <ul class="nav sidebar-nav">
+    <!-- User dropdown  -->
+    <li class="dropdown">
+        <ul id="settings-dropdown" class="dropdown-menu">
+            
+                <li>
+                    <a href="#" target="_blank" title="Email Me">
+                        
+                            <i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">email</i>
+                        
+                        Email Me
+                    </a>
+                </li>
+            
+        </ul>
+    </li>
+
+    <!-- Homepage -->
+    
+        <li id="sidebar-first-li">
+            <a href="/" target="_self">
+                
+                    <i class="material-icons sidebar-material-icons">home</i>
+                
+                主页
+            </a>
+        </li>
+        
+            <li class="divider"></li>
+        
+    
+
+    <!-- Archives  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">inbox</i>
+                
+                    归档
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+            <li>
+                <a class="sidebar_archives-link" href="/archives/2017/03/">三月 2017<span class="sidebar_archives-count">2</span></a>
+            </ul>
+        </li>
+        
+    
+
+    <!-- Categories  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">chrome_reader_mode</i>
+                
+                分类
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                <a class="sidebar_archives-link" href="/categories/Android开发/">Android开发<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/日志/">日志<span class="sidebar_archives-count">1</span></a>
+            </ul>
+        </li>
+        
+    
+
+    <!-- Pages  -->
+    
+
+    <!-- Article Number  -->
+    
+        <li>
+            <a href="/archives">
+                文章总数
+                <span class="sidebar-badge">2</span>
+            </a>
+        </li>
+        
+    
+</ul>
+
+
+        <!-- Sidebar Footer -->
+        <!--
+I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright, I will thank you so much.
+If you still want to delete the copyrights, could you still retain the first one? Which namely "Theme Material"
+It will not impact the appearance and can give developers a lot of support :)
+
+很高兴您使用并喜欢该主题，开发不易 十分谢谢与希望您可以保留一下版权声明。
+如果您仍然想删除的话 能否只保留第一项呢？即 "Theme Material"
+它不会影响美观并可以给开发者很大的支持和动力。 :)
+-->
+
+<!-- Sidebar Divider -->
+
+    <div class="sidebar-divider"></div>
+
+
+<!-- Theme Material -->
+
+
+<!-- Help & Support -->
+<!--
+
+-->
+
+<!-- Feedback -->
+<!--
+
+-->
+
+<!-- About Theme -->
+<!--
+
+-->
+
+    </div>
+
+    <!-- Sidebar Image -->
+    
+    <span id="footer-image">
+        <a href="https://www.upyun.com/" target="_blank" title="upyun_logo">
+            <img src="/img/upyun_logo.png" alt="upyun_logo">
+        </a>
+    </span>
+
+
+</aside>
+
+                    
+
+                    
+                        <!-- Footer Top Button -->
+                        <div class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
+    </a>
+</div>
+
+                    
+
+                    <!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+    
+        <!-- Paradox Footer Left Section -->
+        <div class="mdl-mini-footer--left-section sns-list">
+    <!-- Twitter -->
+    
+
+    <!-- Facebook -->
+    
+
+    <!-- Google + -->
+    
+
+    <!-- Weibo -->
+    
+
+    <!-- Instagram -->
+    
+
+    <!-- Tumblr -->
+    
+
+    <!-- Github -->
+    
+
+    <!-- LinkedIn -->
+    
+
+    <!-- Zhihu -->
+    
+
+    <!-- Bilibili -->
+    
+
+    <!-- Telegram -->
+    
+</div>
+
+
+        <!--Copyright-->
+        <div id="copyright">
+            Copyright&nbsp;©&nbsp;
+            <script type="text/javascript">
+                var fd = new Date();
+                document.write(fd.getFullYear());
+            </script>
+            &nbsp;Leo`Blog
+        </div>
+
+        <!-- Paradox Footer Right Section -->
+
+        <!--
+        I am glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+        It will not impact the appearance and can give developers a lot of support :)
+
+        很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+        它不会影响美观并可以给开发者很大的支持。 :)
+        -->
+
+        <div class="mdl-mini-footer--right-section">
+            <div>
+                <div class="footer-develop-div">Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a></div>
+                <div class="footer-develop-div">Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a></div>
+            </div>
+        </div>
+    
+</footer>
+
+
+                    <!-- Import File -->
+<script src="/js/lazyload.min.js"></script>
+<script src="/js/js.min.js"></script>
+<script src="/js/nprogress.js"></script>
+
+<script type="text/javascript">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    $('#nprogress .bar').css({
+        'background': '#29d'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #29d, 0 0 15px #29d'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#29d',
+        'border-left-color': '#29d'
+    });
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+
+
+
+
+    <!-- Busuanzi -->
+    <script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+
+
+<!-- Swiftye -->
+
+
+<!-- Local Search-->
+
+
+<!-- Window Load-->
+<script>
+    $(window).load(function() {
+        // Post_Toc parent position fixed
+        $('.post-toc-wrap').parent('.mdl-menu__container').css('position', 'fixed');
+    });
+</script>
+
+<!-- MathJax Load-->
+
+
+                </main>
+            </div>
+        </body>
+    
+</html>
