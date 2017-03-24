@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zhanghanxuan123.github.io/"/>
-  <updated>2017-03-24T04:47:29.762Z</updated>
+  <updated>2017-03-22T06:39:09.507Z</updated>
   <id>http://zhanghanxuan123.github.io/</id>
   
   <author>
@@ -14,26 +14,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>Retrofit+RxJava优雅地实现图文上传功能</title>
-    <link href="http://zhanghanxuan123.github.io/2017/03/23/upload-file/"/>
-    <id>http://zhanghanxuan123.github.io/2017/03/23/upload-file/</id>
-    <published>2017-03-22T16:21:01.000Z</published>
-    <updated>2017-03-24T04:47:29.762Z</updated>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;最近工作室的项目需要用到图片上传的功能，以前自己写过这样的功能不过代码很乱，故自己用Retrofit+Rxjava重新实现了下。What？你
-    
-    </summary>
-    
-      <category term="Android开发" scheme="http://zhanghanxuan123.github.io/categories/Android%E5%BC%80%E5%8F%91/"/>
-    
-    
-      <category term="RxJava,Retrofit,HTTP,框架" scheme="http://zhanghanxuan123.github.io/tags/RxJava-Retrofit-HTTP-%E6%A1%86%E6%9E%B6/"/>
-    
-  </entry>
   
   <entry>
     <title>My first blog</title>
