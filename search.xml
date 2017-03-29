@@ -4,6 +4,26 @@
   
     
     <entry>
+      <title><![CDATA[Retrofit+RxJava优雅地实现文件下载并监听进度的功能]]></title>
+      <url>http://zhanghanxuan123.github.io/2017/03/29/download-file/</url>
+      <content type="html"></content>
+      
+        <categories>
+            
+            <category> Android开发 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> 框架 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Retrofit+RxJava优雅地实现图文上传功能]]></title>
       <url>http://zhanghanxuan123.github.io/2017/03/23/upload-file/</url>
       <content type="html"><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近工作室的项目需要用到图片上传的功能，以前自己写过这样的功能不过代码很乱，故自己用Retrofit+Rxjava重新实现了下。What？你还不知道Retrofit和RxJava? </p>

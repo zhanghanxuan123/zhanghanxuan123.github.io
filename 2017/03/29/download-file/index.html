@@ -10,7 +10,7 @@
     
     <title>
         
-            My first blog | 
+            Retrofit+RxJava优雅地实现文件下载并监听进度的功能 | 
         
         Leo`Blog
     </title>
@@ -27,7 +27,7 @@
     <meta name="theme-color" content="#0097A7">
     <meta name="author" content="LeoZhang">
     <meta name="description" content="宠辱不惊 岁月静好">
-    <meta name="keywords" content="Android Dev,随笔">
+    <meta name="keywords" content="Android Dev,框架">
 
     <!--iOS -->
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -48,9 +48,9 @@
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="http://zhanghanxuan123.github.io">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="My first blog | Leo`Blog">
+    <meta property="og:title" content="Retrofit+RxJava优雅地实现文件下载并监听进度的功能 | Leo`Blog">
     <meta property="og:description" content="宠辱不惊 岁月静好">
-    <meta property="og:article:tag" content="随笔"> 
+    <meta property="og:article:tag" content="框架"> 
 
     <!--[if lte IE 9]>
         <link rel="stylesheet" href="/css/ie-blocker.css">
@@ -244,7 +244,7 @@
     </button>
 
     <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn">
-        <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#前言"><span class="post-toc-number">1.</span> <span class="post-toc-text">前言</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#内容"><span class="post-toc-number">2.</span> <span class="post-toc-text">内容</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#随笔"><span class="post-toc-number">2.0.1.</span> <span class="post-toc-text">随笔</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#技术"><span class="post-toc-number">2.0.2.</span> <span class="post-toc-text">技术</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#踩坑"><span class="post-toc-number">2.0.3.</span> <span class="post-toc-text">踩坑</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#目标"><span class="post-toc-number">3.</span> <span class="post-toc-text">目标</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Motto"><span class="post-toc-number">4.</span> <span class="post-toc-text">Motto</span></a></li></ol>
+        
 
         <!--
         <li class="mdl-menu__item">
@@ -269,10 +269,10 @@
     <!-- Paradox Post Header -->
     
         <!-- Custom Thumbnail -->
-        <div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1490163089694&di=f81f61c3c4c39e72e718c153d8d05287&imgtype=0&src=http%3A%2F%2Fimg1.ph.126.net%2Flvr9IbQdMyVF2G0TKJfmGw%3D%3D%2F6597401819170192852.jpg)">
+        <div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(/img/download_file_bg.jpg)">
     
             <p class="article-headline-p">
-                My first blog
+                Retrofit+RxJava优雅地实现文件下载并监听进度的功能
             </p>
         </div>
 
@@ -291,7 +291,7 @@
     <!-- Author Name & Date -->
     <div>
         <strong>LeoZhang</strong>
-        <span>3月 22, 2017</span>
+        <span>3月 29, 2017</span>
     </div>
 
     <div class="section-spacer"></div>
@@ -315,7 +315,7 @@
     </button>
     <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
         <li class="mdl-menu__item">
-        <a class="post_tag-link" href="/tags/随笔/">随笔</a>
+        <a class="post_tag-link" href="/tags/框架/">框架</a>
     </ul>
     
 
@@ -329,7 +329,7 @@
     <!-- Leancloud Views -->
         <a class="post_share-link" href="#">
             <li class="mdl-menu__item">
-                <span id="/2017/03/22/My-first-blog/" class="leancloud-views_num" data-flag-title="My first blog">
+                <span id="/2017/03/29/download-file/" class="leancloud-views_num" data-flag-title="Retrofit+RxJava优雅地实现文件下载并监听进度的功能">
      &nbsp;浏览量
 </span>
 
@@ -352,7 +352,7 @@
 
     <!-- Share Weibo -->
     
-        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=My first blog&url=http://zhanghanxuan123.github.io//2017/03/22/My-first-blog/index.html&pic=&searchPic=false&style=simple" target="_blank">
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=Retrofit+RxJava优雅地实现文件下载并监听进度的功能&url=http://zhanghanxuan123.github.io//2017/03/29/download-file/index.html&pic=&searchPic=false&style=simple" target="_blank">
             <li class="mdl-menu__item">
                 分享到微博
             </li>
@@ -361,7 +361,7 @@
 
     <!-- Share Twitter -->
     
-        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=My first blog&url=http://zhanghanxuan123.github.io//2017/03/22/My-first-blog/index.html&via=LeoZhang" target="_blank">
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=Retrofit+RxJava优雅地实现文件下载并监听进度的功能&url=http://zhanghanxuan123.github.io//2017/03/29/download-file/index.html&via=LeoZhang" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Twitter
             </li>
@@ -370,7 +370,7 @@
 
     <!-- Share Facebook -->
     
-        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://zhanghanxuan123.github.io//2017/03/22/My-first-blog/index.html" target="_blank">
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://zhanghanxuan123.github.io//2017/03/29/download-file/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 Facebook
             </li>
@@ -385,7 +385,7 @@
 
     <!-- Share QQ -->
     
-        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=Leo`Blog&title=My first blog&summary=宠辱不惊 岁月静好&pics=http://zhanghanxuan123.github.io/img/favicon.png&url=http://zhanghanxuan123.github.io/2017/03/22/My-first-blog/index.html" target="_blank">
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=Leo`Blog&title=Retrofit+RxJava优雅地实现文件下载并监听进度的功能&summary=宠辱不惊 岁月静好&pics=http://zhanghanxuan123.github.io/img/favicon.png&url=http://zhanghanxuan123.github.io/2017/03/29/download-file/index.html" target="_blank">
             <li class="mdl-menu__item">
                 分享到 QQ
             </li>
@@ -403,20 +403,7 @@
                 <!-- Post Content -->
                 <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
     
-        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>其实写博客是我很长久以来就想做的事情。一是觉得能提高写作能力；二是巩固和加深自己对技术的理解吧。很多时候我都有这种感觉，有些知识自己知道怎么去用，但一旦想要解释给别人听的时候，往往说不清楚。并且,在博客上写点东西给别人看的时候，有时会获得对某些东西不一样的理解。</p>
-<h1 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h1><h3 id="随笔"><a href="#随笔" class="headerlink" title="随笔"></a>随笔</h3><p>  记录生活</p>
-<h3 id="技术"><a href="#技术" class="headerlink" title="技术"></a>技术</h3><p>  记录成为优秀程(dan)序(shen)员(gou)的成长道路</p>
-<h3 id="踩坑"><a href="#踩坑" class="headerlink" title="踩坑"></a>踩坑</h3><p>  我的踩坑日记</p>
-<h1 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h1><p>还是写点目标激励下自己吧</p>
-<ul>
-<li>暑假找个不错的实习</li>
-<li>在这里经常写点东西</li>
-<li>继续完善这个Blog</li>
-<li>属于自己的上线APP</li>
-<li>加大github contributions的绿化程度</li>
-</ul>
-<h1 id="Motto"><a href="#Motto" class="headerlink" title="Motto"></a>Motto</h1><p>程序人生的精彩需要坚持不懈地积累！</p>
-
+        
     
 
     
@@ -439,19 +426,19 @@
             <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
     <!-- Prev Nav -->
     
-        <a href="/2017/03/23/upload-file/" id="post_nav-newer" class="prev-content">
-            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
-                <i class="material-icons">arrow_back</i>
-            </button>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            新篇
-        </a>
-    
 
     <!-- Section Spacer -->
     <div class="section-spacer"></div>
 
     <!-- Next Nav -->
+    
+        <a href="/2017/03/23/upload-file/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
     
 </nav>
 

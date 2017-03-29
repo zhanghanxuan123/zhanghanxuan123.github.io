@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zhanghanxuan123.github.io/"/>
-  <updated>2017-03-24T05:29:27.125Z</updated>
+  <updated>2017-03-29T14:45:39.098Z</updated>
   <id>http://zhanghanxuan123.github.io/</id>
   
   <author>
@@ -14,6 +14,24 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Retrofit+RxJava优雅地实现文件下载并监听进度的功能</title>
+    <link href="http://zhanghanxuan123.github.io/2017/03/29/download-file/"/>
+    <id>http://zhanghanxuan123.github.io/2017/03/29/download-file/</id>
+    <published>2017-03-29T14:38:57.000Z</published>
+    <updated>2017-03-29T14:45:39.098Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="Android开发" scheme="http://zhanghanxuan123.github.io/categories/Android%E5%BC%80%E5%8F%91/"/>
+    
+    
+      <category term="框架" scheme="http://zhanghanxuan123.github.io/tags/%E6%A1%86%E6%9E%B6/"/>
+    
+  </entry>
   
   <entry>
     <title>Retrofit+RxJava优雅地实现图文上传功能</title>
