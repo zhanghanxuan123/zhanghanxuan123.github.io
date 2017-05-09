@@ -10,6 +10,8 @@
     
     <title>
         
+            Android开发进阶-多线程笔记 | 
+        
         Leo`Blog
     </title>
 
@@ -25,7 +27,7 @@
     <meta name="theme-color" content="#0097A7">
     <meta name="author" content="LeoZhang">
     <meta name="description" content="宠辱不惊 岁月静好">
-    <meta name="keywords" content="Android Dev">
+    <meta name="keywords" content="Android Dev,基础知识">
 
     <!--iOS -->
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
@@ -46,9 +48,9 @@
     <!-- The Open Graph protocol -->
     <meta property="og:url" content="http://zhanghanxuan123.github.io">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="Leo`Blog">
+    <meta property="og:title" content="Android开发进阶-多线程笔记 | Leo`Blog">
     <meta property="og:description" content="宠辱不惊 岁月静好">
-    
+    <meta property="og:article:tag" content="基础知识"> 
 
     <!--[if lte IE 9]>
         <link rel="stylesheet" href="/css/ie-blocker.css">
@@ -216,458 +218,331 @@
                         </button>
                     
 
-                    <!-- Index Module -->
-<div class="material-index mdl-grid">
+                    <!-- Post TOC -->
+
     
-        <!-- Paradox Header -->
-        <!-- Daily pic -->
-<div class="mdl-card mdl-shadow--2dp daily-pic mdl-cell mdl-cell--8-col index-top-block">
-
-    <!-- Pic & Slogan -->
-    <div class="mdl-card__media mdl-color-text--grey-50" style="background-image:url(/img/daily_pic.png)">
-        <p class="index-top-block-slogan"><a href="https://github.com/zhanghanxuan123">
-        
-            
-                How bad you want it
-            
-        
-        </a></p>
-    </div>
-
-    <!-- Avatar & Name -->
-    <div class="mdl-card__supporting-text meta mdl-color-text--grey-600">
-        <!-- Author Avatar -->
-        <div id="author-avatar">
-            <img src="/img/avatar.jpg" width="32px" height="32px" alt="avatar">
-        </div>
-        <div>
-            <strong>LeoZhang</strong>
-        </div>
-    </div>
-</div>
-
-        <!-- Blog info -->
-<div class="mdl-card mdl-shadow--2dp something-else mdl-cell mdl-cell--8-col mdl-cell--4-col-desktop index-top-block">
-
-    <!-- Search -->
-    
-    <!-- Google -->
-    <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable" method="post" action="">
-        <label id="search-label" class="mdl-button mdl-js-ripple-effect mdl-js-button mdl-button--fab mdl-color--accent mdl-shadow--4dp" for="search">
-            <i class="material-icons mdl-color-text--white" role="presentation">search</i>
-        </label>
-
-        <form autocomplete="off" id="search-form" method="get" action="//google.com/search" accept-charset="UTF-8" class="mdl-textfield__expandable-holder" target="_blank">
-            <input class="mdl-textfield__input search-input" type="search" name="q" id="search" placeholder="">
-            <label id="search-form-label" class="mdl-textfield__label" for="search"></label>
-
-            <input type="hidden" name="sitesearch" value="http://zhanghanxuan123.github.io">
-        </form>
-    </div>
-
-
-
-
-
-
-
-    <!-- LOGO -->
-    <div class="something-else-logo mdl-color--white mdl-color-text--grey-600">
-        <a href="https://github.com/zhanghanxuan123">
-            <img src="/img/logo.png" alt="logo" />
+    <!-- Back Button -->
+    <!--
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
         </a>
     </div>
+    -->
 
-    <!-- Infomation -->
-    <div class="mdl-card__supporting-text meta meta--fill mdl-color-text--grey-600">
-        <!-- Blog Title -->
-        <div>
-            <strong>Leo`Blog</strong>
-        </div>
-        <div class="section-spacer"></div>
+    <!-- Left aligned menu below button -->
+    <button id="post-toc-trigger-btn"
+        class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
 
-        <!-- Pages -->
-        <button id="show-pages-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-            <i class="material-icons" role="presentation">view_carousel</i>
-            <span class="visuallyhidden">Pages</span>
-        </button>
-        <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="show-pages-button">
-            
-        </ul>
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#Android中的消息机制"><span class="post-toc-number">1.</span> <span class="post-toc-text">Android中的消息机制</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#处理消息的手段"><span class="post-toc-number">1.1.</span> <span class="post-toc-text">处理消息的手段</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#Andriod中的多线程"><span class="post-toc-number">1.2.</span> <span class="post-toc-text">Andriod中的多线程</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#多线程的实现——Thread和Runable"><span class="post-toc-number">1.2.1.</span> <span class="post-toc-text">多线程的实现——Thread和Runable</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#线程的wait-sleep-join-yield"><span class="post-toc-number">1.2.2.</span> <span class="post-toc-text">线程的wait,sleep,join,yield</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#与多线程相关的方法——Callable-Future和FutureTask"><span class="post-toc-number">1.2.3.</span> <span class="post-toc-text">与多线程相关的方法——Callable,Future和FutureTask</span></a></li><li class="post-toc-item post-toc-level-4"><a class="post-toc-link" href="#线程池"><span class="post-toc-number">1.2.4.</span> <span class="post-toc-text">线程池</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#ThreadPoolExecutor——启动指定数量的线程"><span class="post-toc-number">1.2.4.1.</span> <span class="post-toc-text">ThreadPoolExecutor——启动指定数量的线程</span></a></li><li class="post-toc-item post-toc-level-5"><a class="post-toc-link" href="#ScheduledThreadPoolExecutor——定时执行一些任务"><span class="post-toc-number">1.2.4.2.</span> <span class="post-toc-text">ScheduledThreadPoolExecutor——定时执行一些任务</span></a></li></ol></li></ol></li></ol></li></ol>
 
-        <!-- Menu -->
-        <button id="menubtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
-            <i class="material-icons" role="presentation">more_vert</i>
-            <span class="visuallyhidden">show menu</span>
-        </button>
-        <ul class="mdl-menu mdl-js-menu mdl-menu--bottom-right" for="menubtn">
-            
-                <!-- All Site UV -->
-                <a class="index_share-link" href="#">
-                    <li class="mdl-menu__item mdl-js-ripple-effect">
-                        <span id="busuanzi_container_site_uv">
-                            <span id="busuanzi_value_site_uv"></span>&nbsp;浏览量
-                        </span>
-                    </li>
-                </a>
-            
+        <!--
+        <li class="mdl-menu__item">
+            Some Action
+        </li>
+        -->
+    </ul>
 
-            
-                <a class="index_share-link" href="zhanghanxuan123.github.io">
-                    <li class="mdl-menu__item mdl-js-ripple-effect">
-                        文章 RSS
-                    </li>
-                </a>
-            
 
-            
-                <a class="index_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=Leo`Blog&url=http://zhanghanxuan123.github.io/&pic=&searchPic=false&style=simple" target="_blank">
-                    <li class="mdl-menu__item mdl-js-ripple-effect">
-                        分享到微博
-                    </li>
-                </a>
-            
 
-            
-                <a class="index_share-link" href="https://twitter.com/intent/tweet?text=Leo`Blog&url=http://zhanghanxuan123.github.io/&via=LeoZhang" target="_blank">
-                    <li class="mdl-menu__item mdl-js-ripple-effect">
-                        分享到 Twitter
-                    </li>
-                </a>
-            
 
-            
-                <a class="index_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://zhanghanxuan123.github.io//index.html" target="_blank">
-                    <li class="mdl-menu__item mdl-js-ripple-effect">
-                        分享到 Facebook
-                    </li>
-                </a>
-            
+<!-- Layouts -->
 
-            
+    <!-- Post Module -->
+    <div class="material-post_container">
 
-            
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
 
-            
-                <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=Leo`Blog&title=Leo`Blog&summary=宠辱不惊 岁月静好&pics=http://zhanghanxuan123.github.io/img/favicon.png&url=http://zhanghanxuan123.github.io/" target="_blank">
-                    <li class="mdl-menu__item">
-                        分享到 QQ
-                    </li>
-                </a>
-            
-
-            
-        </ul>
-    </div>
-</div>
-
-    
-    <div class="locate-thumbnail-symbol"></div>
-
-    <!-- Pin on top -->
-    
-
-    <!-- Normal Post -->
-    
-        
-        
-            <!-- Paradox Thumbnail -->
-            <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
+                <!-- Post Header(Thumbnail & Title) -->
+                
+    <!-- Paradox Post Header -->
     
         
             <!-- Random Thumbnail -->
             <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
+            <script>
+    var randomNum = Math.floor(Math.random() * 19 + 1);
 
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2017/05/06/Activity-note/">Android开发进阶-Activity笔记</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            Activity生命周期图：
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2017/05/06/Activity-note/" target="_self">继续阅读</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.jpg" width="44px" height="44px" alt="LeoZhang's avatar">
-            </div>
-            <div>
-                <strong>LeoZhang</strong>
-                <span>5月 06, 2017</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/学习笔记/">学习笔记</a>
-            </span>
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-        
-        
-        
-    
-        
-        
-            <!-- Paradox Thumbnail -->
-            <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
-    
-        
-            <!-- Random Thumbnail -->
-            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
-        
-    
-
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2017/05/06/多线程笔记/">Android开发进阶-多线程笔记</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            Android中的消息机制
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2017/05/06/多线程笔记/" target="_self">继续阅读</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.jpg" width="44px" height="44px" alt="LeoZhang's avatar">
-            </div>
-            <div>
-                <strong>LeoZhang</strong>
-                <span>5月 06, 2017</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/学习笔记/">学习笔记</a>
-            </span>
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-        
-        
-        
-    
-        
-        
-            <!-- Paradox Thumbnail -->
-            <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
-    
-        <!-- Custom Thumbnail -->
-        <div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(http://on2ekkj4q.bkt.clouddn.com/download_file_bg.jpg)">
-    
-
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2017/03/29/download-file/">Retrofit+RxJava优雅地实现文件下载并监听进度的功能</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            前言在
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2017/03/29/download-file/" target="_self">继续阅读</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.jpg" width="44px" height="44px" alt="LeoZhang's avatar">
-            </div>
-            <div>
-                <strong>LeoZhang</strong>
-                <span>3月 29, 2017</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/Android开发/">Android开发</a>
-            </span>
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-        
-        
-        
-    
-        
-        
-            <!-- Paradox Thumbnail -->
-            <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
-    
-        <!-- Custom Thumbnail -->
-        <div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(http://on2ekkj4q.bkt.clouddn.com/upload_pic_bg.jpg)">
-    
-
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2017/03/23/upload-file/">Retrofit+RxJava优雅地实现图文上传功能</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            前言最近工作室的项目需要用到图片上传的功能，以前自己写过这样的功能不过代码很乱，故自己用Retro...
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2017/03/23/upload-file/" target="_self">继续阅读</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.jpg" width="44px" height="44px" alt="LeoZhang's avatar">
-            </div>
-            <div>
-                <strong>LeoZhang</strong>
-                <span>3月 23, 2017</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/Android开发/">Android开发</a>
-            </span>
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-        
-        
-        
-    
-        
-        
-            <!-- Paradox Thumbnail -->
-            <div class="post_entry-module mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col fade out">
-    <!-- Post Thumbnail -->
-    
-        <!-- Custom Thumbnail -->
-        <div class="post_thumbnail-custom mdl-card__media mdl-color-text--grey-50" style="background-image:url(https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1490163089694&amp;di=f81f61c3c4c39e72e718c153d8d05287&amp;imgtype=0&amp;src=http%3A%2F%2Fimg1.ph.126.net%2Flvr9IbQdMyVF2G0TKJfmGw%3D%3D%2F6597401819170192852.jpg)">
-    
-
-        <!-- Post Title -->
-        <p class="article-headline-p"><a href="/2017/03/22/My-first-blog/">My first blog</a></p>
-    </div>
-
-    <!-- Post Excerpt -->
-    <div class="mdl-color-text--grey-600 mdl-card__supporting-text post_entry-content">
-        
-            前言其实写博客是我很长久以来就想做的事情。一是觉得能提高写作能力；二是巩固和加深自己对技术的理解吧...
-        
-        &nbsp;&nbsp;&nbsp;
-        <span>
-            <a href="/2017/03/22/My-first-blog/" target="_self">继续阅读</a>
-        </span>
-    </div>
-    <!-- Post_entry Info-->
-    <div id="post_entry-info">
-        <div id="post_entry-left-info" class="mdl-card__supporting-text meta mdl-color-text--grey-600 ">
-            <!-- Author Avatar -->
-            <div id="author-avatar">
-                <img src="/img/avatar.jpg" width="44px" height="44px" alt="LeoZhang's avatar">
-            </div>
-            <div>
-                <strong>LeoZhang</strong>
-                <span>3月 22, 2017</span>
-            </div>
-        </div>
-        <div id="post_entry-right-info">
-            <!-- Category -->
-            <span class="post_entry-category">
-                <a class="post_category-link" href="/categories/日志/">日志</a>
-            </span>
-
-            
-
-            <!-- Post Views -->
-            <span class="post_entry-views">
-            </span>
-        </div>
-    </div>
-</div>
-
-        
-        
-        
-    
-
-    
-
-    
-        <script>
-    var randomNum;
-
-    var locatePost = $('.locate-thumbnail-symbol').next();
-    for(var i = 0; i < 10; i++) {
-        randomNum = Math.floor(Math.random() * 19 + 1);
-
-        locatePost.children('.post_thumbnail-random').attr('id', 'random_thumbnail-'+randomNum);
-        locatePost.children('.post_thumbnail-random').css('background-image', 'url(' + '/img/random/material-' + randomNum + '.png' + ')')
-
-        locatePost = locatePost.next();
-    }
+    $('.post_thumbnail-random').css('background-image', 'url(' + '/img/random/material-' + randomNum + '.png' + ')');
 </script>
 
+        
+    
+            <p class="article-headline-p">
+                Android开发进阶-多线程笔记
+            </p>
+        </div>
+
+
+
+
+
+                
+                    <!-- Paradox Post Info -->
+                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="/img/avatar.jpg" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>LeoZhang</strong>
+        <span>5月 06, 2017</span>
+    </div>
+
+    <div class="section-spacer"></div>
+
+    <!-- Favorite -->
+    <!--
+        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+            <i class="material-icons" role="presentation">favorite</i>
+            <span class="visuallyhidden">favorites</span>
+        </button>
+    -->
+
+    <!-- Qrcode -->
+    
+
+    <!-- Tags (bookmark) -->
+    
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/基础知识/">基础知识</a>
+    </ul>
+    
+
+    <!-- Share -->
+    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+    <!-- Leancloud Views -->
+        <a class="post_share-link" href="#">
+            <li class="mdl-menu__item">
+                <span id="/2017/05/06/多线程笔记/" class="leancloud-views_num" data-flag-title="Android开发进阶-多线程笔记">
+     &nbsp;浏览量
+</span>
+
+            </li>
+        </a>
+    
+
+    
+        
+            <!-- Busuanzi Views -->
+            <a class="post_share-link" href="#">
+                <li class="mdl-menu__item">
+                    <span id="busuanzi_container_page_pv">
+                        <span id="busuanzi_value_page_pv"></span>&nbsp;浏览量
+                    </span>
+                </li>
+            </a>
+        
+    
+
+    <!-- Share Weibo -->
+    
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=Android开发进阶-多线程笔记&url=http://zhanghanxuan123.github.io//2017/05/06/多线程笔记/index.html&pic=&searchPic=false&style=simple" target="_blank">
+            <li class="mdl-menu__item">
+                分享到微博
+            </li>
+        </a>
+    
+
+    <!-- Share Twitter -->
+    
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=Android开发进阶-多线程笔记&url=http://zhanghanxuan123.github.io//2017/05/06/多线程笔记/index.html&via=LeoZhang" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Twitter
+            </li>
+        </a>
+    
+
+    <!-- Share Facebook -->
+    
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://zhanghanxuan123.github.io//2017/05/06/多线程笔记/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Facebook
+            </li>
+        </a>
+    
+
+    <!-- Share Google+ -->
+    
+
+    <!-- Share LinkedIn -->
+    
+
+    <!-- Share QQ -->
+    
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=Leo`Blog&title=Android开发进阶-多线程笔记&summary=宠辱不惊 岁月静好&pics=http://zhanghanxuan123.github.io/img/favicon.png&url=http://zhanghanxuan123.github.io/2017/05/06/多线程笔记/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 QQ
+            </li>
+        </a>
+    
+
+    <!-- Share Telegram -->
+    
+</ul>
+
+</div>
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+        <h2 id="Android中的消息机制"><a href="#Android中的消息机制" class="headerlink" title="Android中的消息机制"></a>Android中的消息机制</h2><h3 id="处理消息的手段"><a href="#处理消息的手段" class="headerlink" title="处理消息的手段"></a>处理消息的手段</h3><p>Handler,Looper,MessageQue<br><img src="http://on2ekkj4q.bkt.clouddn.com/%E6%B6%88%E6%81%AF%E6%9C%BA%E5%88%B6.jpg" alt="消息机制"><br>Android应用启动时，会默认有一个主线程(UI线程)，在这个线程中会关联一个消息队列，所有的操作都会被封装成消息然后交给主线程来处理。为了保证主线程不会主动退出，会将获取消息的操作放在一个死循环中，如上图。</p>
+<p>UI线程的消息循环是在ActivityThread.main方法中创建的，该函数为应用程序的主入口。<br><img src="http://on2ekkj4q.bkt.clouddn.com/ActivityThread.jpg" alt="ActivityThread"><br>子线程中执行完耗时操作后，很多情况下需要更新UI，但我们都知道，不能在子线程中更新UI。此时最常用的手段就是通过Handlr将一个消息post到UI线程中，然后再在Handler的handleMessage方法中进行处理，但需要注意的是，Handler必须在主线程中创建。</p>
+<p>每个Handler都会关联一个消息队列，消息队列被封装在Looper中，而每个Looper又会关联一个线程，最终就等于每个消息队列会关联一个线程。默认情况下，消息队列只有一个，即主线程的消息队列，就是上图中的通过Looper.prepareMainLoop()来创建的，最后执行Looper.loop()来启动消息循环。</p>
+<p>那么Handler是如何关联消息队列以及线程的呢？？？</p>
+<p>在子线程中创建Handler为何会抛出异常？？？</p>
+<h3 id="Andriod中的多线程"><a href="#Andriod中的多线程" class="headerlink" title="Andriod中的多线程"></a>Andriod中的多线程</h3><p>Android中的多线程实际上就是Java SE中的多线程，为了方便实用，Android封装可一些类，如Aynctask、HandlerThread</p>
+<h4 id="多线程的实现——Thread和Runable"><a href="#多线程的实现——Thread和Runable" class="headerlink" title="多线程的实现——Thread和Runable"></a>多线程的实现——Thread和Runable</h4><p>实际上，Thread也是一个Runnable,它实现了Runnable接口。Threa里有一个target的Runnable字段，最终执行任务的是Runnable。Runnable接口定义了可执行的任务，它只有一个无返回值的run()函数。</p>
+<h4 id="线程的wait-sleep-join-yield"><a href="#线程的wait-sleep-join-yield" class="headerlink" title="线程的wait,sleep,join,yield"></a>线程的wait,sleep,join,yield</h4><ul>
+<li>sleep()方法</li>
+</ul>
+<p>在指定时间内让当前正在执行的线程暂停执行，但不会释放“锁标志”。不推荐使用。</p>
+<p>sleep()使当前线程进入阻塞状态，在指定时间内不会执行。</p>
+<ul>
+<li>wait()方法</li>
+</ul>
+<p>在其他线程调用对象的notify或notifyAll方法前，导致当前线程等待。线程会释放掉它所占有的“锁标志”，从而使别的线程有机会抢占该锁。</p>
+<p>当前线程必须拥有当前对象锁。如果当前线程不是此锁的拥有者，会抛出IllegalMonitorStateException异常。</p>
+<p>唤醒当前对象锁的等待线程使用notify或notifyAll方法，也必须拥有相同的对象锁，否则也会抛出IllegalMonitorStateException异常。</p>
+<p>waite()和notify()必须在synchronized函数或synchronized　block中进行调用。如果在non-synchronized函数或non-synchronized　block中进行调用，虽然能编译通过，但在运行时会发生IllegalMonitorStateException的异常。</p>
+<ul>
+<li>yield方法</li>
+</ul>
+<p>暂停当前正在执行的线程对象。</p>
+<p>yield()只是使当前线程重新回到可执行状态，所以执行yield()的线程有可能在进入到可执行状态后马上又被执行。</p>
+<p>yield()只能使同优先级或更高优先级的线程有执行的机会。 </p>
+<ul>
+<li>join方法</li>
+</ul>
+<p>等待该线程终止。</p>
+<p>等待调用join方法的线程结束，再继续执行。如：t.join();//主要用于等待t线程运行结束，若无此句，main则会执行完毕，导致结果不可预测。</p>
+<h4 id="与多线程相关的方法——Callable-Future和FutureTask"><a href="#与多线程相关的方法——Callable-Future和FutureTask" class="headerlink" title="与多线程相关的方法——Callable,Future和FutureTask"></a>与多线程相关的方法——Callable,Future和FutureTask</h4><p>这几个类型只能运用到线程池中，而Runnable技能运用在Thread中，又能运用在线程池中。</p>
+<ol>
+<li>Callable与Runnable的功能大致相似，Callable中有一个call()函数，但是call()函数有返回值，而Runnable的run()函数不能将结果返回给客户程序。<ol>
+<li>Executor就是Runnable和Callable的调度容器，Future就是对于具体的Runnable或者Callable任务的执行结果进行<br>取消、查询是否完成、获取结果、设置结果操作。get方法会阻塞，直到任务返回结果(Future简介)。</li>
+</ol>
+</li>
+<li>FutureTask则是一个RunnableFuture<v>，而RunnableFuture实现了Runnbale又实现了Futrue<v>这两个接口。</v></v></li>
+</ol>
+<h4 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h4><p>线程池原理简单地解释就是会创建多个线程并且进行管理，提交给线程的任务会被线程池指派给其中的线程进行执行，通过线程池的统一调度、管理使得多线程的使用更简、高效。</p>
+<p>线程池都实现了ExecutorService接口，该接口定义了线程池需要实现的接口如submit,execute,shutdown等。它的实现有ThreadPoolExecutor和ScheduledThreadPoolExecutor。</p>
+<h5 id="ThreadPoolExecutor——启动指定数量的线程"><a href="#ThreadPoolExecutor——启动指定数量的线程" class="headerlink" title="ThreadPoolExecutor——启动指定数量的线程"></a>ThreadPoolExecutor——启动指定数量的线程</h5><p>ThreadPoolExecutor的构造函数<br><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">ThreadPoolExecutor(<span class="keyword">int</span> corePoolSize, <span class="keyword">int</span> maximumPoolSize,</div><div class="line"></div><div class="line"><span class="keyword">long</span> keepAliveTime, TimeUnit unit,</div><div class="line"></div><div class="line">BlockingQueue&lt;Runnable&gt; workQueue,</div><div class="line"></div><div class="line">RejectedExecutionHandler <span class="keyword">handler</span>)</div></pre></td></tr></table></figure></p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th style="text-align:center">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>corePoolSize</td>
+<td style="text-align:center">线程池维护线程的最少数量</td>
+</tr>
+<tr>
+<td>maximumPoolSize</td>
+<td style="text-align:center">线程池维护线程的最大数量</td>
+</tr>
+<tr>
+<td>keepAliveTime</td>
+<td style="text-align:center">线程池维护线程所允许的空闲时间</td>
+</tr>
+<tr>
+<td>unit</td>
+<td style="text-align:center">线程池维护线程所允许的空闲时间的单位</td>
+</tr>
+<tr>
+<td>workQueue</td>
+<td style="text-align:center">线程池所使用的缓冲队列</td>
+</tr>
+<tr>
+<td>handler</td>
+<td style="text-align:center">线程池对拒绝任务的处理策略</td>
+</tr>
+</tbody>
+</table>
+<p>workQueue的常用实现</p>
+<ul>
+<li>ArrayBlockingQueue</li>
+<li>LinkedBlockingQueue</li>
+<li>SynchronousQueue</li>
+<li>PriorityBlockingQueue</li>
+</ul>
+<h5 id="ScheduledThreadPoolExecutor——定时执行一些任务"><a href="#ScheduledThreadPoolExecutor——定时执行一些任务" class="headerlink" title="ScheduledThreadPoolExecutor——定时执行一些任务"></a>ScheduledThreadPoolExecutor——定时执行一些任务</h5>
+    
+
     
 </div>
+
+
+                
+
+                <!-- Post Comments -->
+                
+                    
+
+
+
+
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+        <a href="/2017/05/06/Activity-note/" id="post_nav-newer" class="prev-content">
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            新篇
+        </a>
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2017/03/29/download-file/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
 
 
                     

@@ -4,6 +4,158 @@
   
     
     <entry>
+      <title><![CDATA[Android开发进阶-Activity笔记]]></title>
+      <url>http://zhanghanxuan123.github.io/2017/05/06/Activity-note/</url>
+      <content type="html"><![CDATA[<h3 id="Activity"><a href="#Activity" class="headerlink" title="Activity"></a>Activity</h3><p>生命周期图：<br><img src="http://on2ekkj4q.bkt.clouddn.com/ActivityLife.png" alt="生命周期"></p>
+<p>视图结构<br><img src="http://on2ekkj4q.bkt.clouddn.com/Activity%E7%BB%93%E6%9E%84.png" alt="视图结构"><br>这里的DecorView实际上才是页面的顶级视图，PhoneWindow是Window的实现类</p>
+<p>Activity的四种启动模式<br>Anroid内部使用通过会退栈来管理Activity实例</p>
+<ul>
+<li>standard</li>
+<li>singleTop</li>
+<li>singleTask</li>
+<li>singleInstance</li>
+</ul>
+<h3 id="Service与AIDL"><a href="#Service与AIDL" class="headerlink" title="Service与AIDL"></a>Service与AIDL</h3><p>service默认并不会运行在子线程中，它执行在UI线程中，因此，不要在Service中执行耗时操作，除非你在Service中创建子线程。相应的服务启动起来，首次创建会调用onCreat函数，然后回调onStartCommand()函数。虽然每调用一次startService()函数，onStartCommand()就会执行一次，但每个服务只会存在一个实例，最后只需调用一个stopService()或stopSelf()函数,服务就会被停止。</p>
+<h4 id="IntentService"><a href="#IntentService" class="headerlink" title="IntentService"></a>IntentService</h4><p>将用户的请求执行在一个子线程中，只需复写onHandleIntent函数就能完成耗时操作。在任务执行完毕之后会调用stopself自我销毁，因此，适合于一些短期的耗时任务。</p>
+<h4 id="运行在前台的Service"><a href="#运行在前台的Service" class="headerlink" title="运行在前台的Service"></a>运行在前台的Service</h4><p>通知栏上</p>
+<h4 id="AIDL-Android接口描述语言"><a href="#AIDL-Android接口描述语言" class="headerlink" title="AIDL(Android接口描述语言)"></a>AIDL(Android接口描述语言)</h4><p>常用语进程间通信。编译器根据AIDL文件生成一个系列对应的Java类，通过预先定义的接口以及Binder机制达到进程间的通信目的。</p>
+<h3 id="Broadcast"><a href="#Broadcast" class="headerlink" title="Broadcast"></a>Broadcast</h3><p>Android广播机制包含三个要素，发送广播的Broadcast,接收广播的BroadReceiver以及用于传递信息的Intent。</p>
+<ul>
+<li>普通广播</li>
+</ul>
+<p>消息的传递效率高，但所有的receivers的执行顺序不确定；接受之不能处理结果传递给下一个接收者，并且无法终止广播的Intent的传播，知道没有与之匹配的广播接收器为止。</p>
+<ul>
+<li>有序广播</li>
+</ul>
+<p>可以通过设置优先级依次执行，可以使用setResult()函数来传递结果给下一个广播，并且可以用abortBroadcast()函数来让系统丢弃该广播</p>
+<ul>
+<li>本地广播</li>
+</ul>
+<p>建议在不需要其他线程接收广播的情况下使用本地广播</p>
+<ul>
+<li>Sticky广播</li>
+</ul>
+<p>Sticky广播通过Context.sendStickyBroadcast()函数来发送，用次函数发送的广播会一直滞留，当有匹配此广播的接收器备注册后，就会接受此条广播，需要获得相应权限</p>
+]]></content>
+      
+        <categories>
+            
+            <category> 学习笔记 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> 基础知识 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
+      <title><![CDATA[Android开发进阶-多线程笔记]]></title>
+      <url>http://zhanghanxuan123.github.io/2017/05/06/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E7%AC%94%E8%AE%B0/</url>
+      <content type="html"><![CDATA[<h2 id="Android中的消息机制"><a href="#Android中的消息机制" class="headerlink" title="Android中的消息机制"></a>Android中的消息机制</h2><h3 id="处理消息的手段"><a href="#处理消息的手段" class="headerlink" title="处理消息的手段"></a>处理消息的手段</h3><p>Handler,Looper,MessageQue<br><img src="http://on2ekkj4q.bkt.clouddn.com/%E6%B6%88%E6%81%AF%E6%9C%BA%E5%88%B6.jpg" alt="消息机制"><br>Android应用启动时，会默认有一个主线程(UI线程)，在这个线程中会关联一个消息队列，所有的操作都会被封装成消息然后交给主线程来处理。为了保证主线程不会主动退出，会将获取消息的操作放在一个死循环中，如上图。</p>
+<p>UI线程的消息循环是在ActivityThread.main方法中创建的，该函数为应用程序的主入口。<br><img src="http://on2ekkj4q.bkt.clouddn.com/ActivityThread.jpg" alt="ActivityThread"><br>子线程中执行完耗时操作后，很多情况下需要更新UI，但我们都知道，不能在子线程中更新UI。此时最常用的手段就是通过Handlr将一个消息post到UI线程中，然后再在Handler的handleMessage方法中进行处理，但需要注意的是，Handler必须在主线程中创建。</p>
+<p>每个Handler都会关联一个消息队列，消息队列被封装在Looper中，而每个Looper又会关联一个线程，最终就等于每个消息队列会关联一个线程。默认情况下，消息队列只有一个，即主线程的消息队列，就是上图中的通过Looper.prepareMainLoop()来创建的，最后执行Looper.loop()来启动消息循环。</p>
+<p>那么Handler是如何关联消息队列以及线程的呢？？？</p>
+<p>在子线程中创建Handler为何会抛出异常？？？</p>
+<h3 id="Andriod中的多线程"><a href="#Andriod中的多线程" class="headerlink" title="Andriod中的多线程"></a>Andriod中的多线程</h3><p>Android中的多线程实际上就是Java SE中的多线程，为了方便实用，Android封装可一些类，如Aynctask、HandlerThread</p>
+<h4 id="多线程的实现——Thread和Runable"><a href="#多线程的实现——Thread和Runable" class="headerlink" title="多线程的实现——Thread和Runable"></a>多线程的实现——Thread和Runable</h4><p>实际上，Thread也是一个Runnable,它实现了Runnable接口。Threa里有一个target的Runnable字段，最终执行任务的是Runnable。Runnable接口定义了可执行的任务，它只有一个无返回值的run()函数。</p>
+<h4 id="线程的wait-sleep-join-yield"><a href="#线程的wait-sleep-join-yield" class="headerlink" title="线程的wait,sleep,join,yield"></a>线程的wait,sleep,join,yield</h4><ul>
+<li>sleep()方法</li>
+</ul>
+<p>在指定时间内让当前正在执行的线程暂停执行，但不会释放“锁标志”。不推荐使用。</p>
+<p>sleep()使当前线程进入阻塞状态，在指定时间内不会执行。</p>
+<ul>
+<li>wait()方法</li>
+</ul>
+<p>在其他线程调用对象的notify或notifyAll方法前，导致当前线程等待。线程会释放掉它所占有的“锁标志”，从而使别的线程有机会抢占该锁。</p>
+<p>当前线程必须拥有当前对象锁。如果当前线程不是此锁的拥有者，会抛出IllegalMonitorStateException异常。</p>
+<p>唤醒当前对象锁的等待线程使用notify或notifyAll方法，也必须拥有相同的对象锁，否则也会抛出IllegalMonitorStateException异常。</p>
+<p>waite()和notify()必须在synchronized函数或synchronized　block中进行调用。如果在non-synchronized函数或non-synchronized　block中进行调用，虽然能编译通过，但在运行时会发生IllegalMonitorStateException的异常。</p>
+<ul>
+<li>yield方法</li>
+</ul>
+<p>暂停当前正在执行的线程对象。</p>
+<p>yield()只是使当前线程重新回到可执行状态，所以执行yield()的线程有可能在进入到可执行状态后马上又被执行。</p>
+<p>yield()只能使同优先级或更高优先级的线程有执行的机会。 </p>
+<ul>
+<li>join方法</li>
+</ul>
+<p>等待该线程终止。</p>
+<p>等待调用join方法的线程结束，再继续执行。如：t.join();//主要用于等待t线程运行结束，若无此句，main则会执行完毕，导致结果不可预测。</p>
+<h4 id="与多线程相关的方法——Callable-Future和FutureTask"><a href="#与多线程相关的方法——Callable-Future和FutureTask" class="headerlink" title="与多线程相关的方法——Callable,Future和FutureTask"></a>与多线程相关的方法——Callable,Future和FutureTask</h4><p>这几个类型只能运用到线程池中，而Runnable技能运用在Thread中，又能运用在线程池中。</p>
+<ol>
+<li>Callable与Runnable的功能大致相似，Callable中有一个call()函数，但是call()函数有返回值，而Runnable的run()函数不能将结果返回给客户程序。<ol>
+<li>Executor就是Runnable和Callable的调度容器，Future就是对于具体的Runnable或者Callable任务的执行结果进行<br>取消、查询是否完成、获取结果、设置结果操作。get方法会阻塞，直到任务返回结果(Future简介)。</li>
+</ol>
+</li>
+<li>FutureTask则是一个RunnableFuture<v>，而RunnableFuture实现了Runnbale又实现了Futrue<v>这两个接口。</v></v></li>
+</ol>
+<h4 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h4><p>线程池原理简单地解释就是会创建多个线程并且进行管理，提交给线程的任务会被线程池指派给其中的线程进行执行，通过线程池的统一调度、管理使得多线程的使用更简、高效。</p>
+<p>线程池都实现了ExecutorService接口，该接口定义了线程池需要实现的接口如submit,execute,shutdown等。它的实现有ThreadPoolExecutor和ScheduledThreadPoolExecutor。</p>
+<h5 id="ThreadPoolExecutor——启动指定数量的线程"><a href="#ThreadPoolExecutor——启动指定数量的线程" class="headerlink" title="ThreadPoolExecutor——启动指定数量的线程"></a>ThreadPoolExecutor——启动指定数量的线程</h5><p>ThreadPoolExecutor的构造函数<br><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">ThreadPoolExecutor(<span class="keyword">int</span> corePoolSize, <span class="keyword">int</span> maximumPoolSize,</div><div class="line"></div><div class="line"><span class="keyword">long</span> keepAliveTime, TimeUnit unit,</div><div class="line"></div><div class="line">BlockingQueue&lt;Runnable&gt; workQueue,</div><div class="line"></div><div class="line">RejectedExecutionHandler <span class="keyword">handler</span>)</div></pre></td></tr></table></figure></p>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th style="text-align:center">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>corePoolSize</td>
+<td style="text-align:center">线程池维护线程的最少数量</td>
+</tr>
+<tr>
+<td>maximumPoolSize</td>
+<td style="text-align:center">线程池维护线程的最大数量</td>
+</tr>
+<tr>
+<td>keepAliveTime</td>
+<td style="text-align:center">线程池维护线程所允许的空闲时间</td>
+</tr>
+<tr>
+<td>unit</td>
+<td style="text-align:center">线程池维护线程所允许的空闲时间的单位</td>
+</tr>
+<tr>
+<td>workQueue</td>
+<td style="text-align:center">线程池所使用的缓冲队列</td>
+</tr>
+<tr>
+<td>handler</td>
+<td style="text-align:center">线程池对拒绝任务的处理策略</td>
+</tr>
+</tbody>
+</table>
+<p>workQueue的常用实现</p>
+<ul>
+<li>ArrayBlockingQueue</li>
+<li>LinkedBlockingQueue</li>
+<li>SynchronousQueue</li>
+<li>PriorityBlockingQueue</li>
+</ul>
+<h5 id="ScheduledThreadPoolExecutor——定时执行一些任务"><a href="#ScheduledThreadPoolExecutor——定时执行一些任务" class="headerlink" title="ScheduledThreadPoolExecutor——定时执行一些任务"></a>ScheduledThreadPoolExecutor——定时执行一些任务</h5>]]></content>
+      
+        <categories>
+            
+            <category> 学习笔记 </category>
+            
+        </categories>
+        
+        
+        <tags>
+            
+            <tag> 基础知识 </tag>
+            
+        </tags>
+        
+    </entry>
+    
+    <entry>
       <title><![CDATA[Retrofit+RxJava优雅地实现文件下载并监听进度的功能]]></title>
       <url>http://zhanghanxuan123.github.io/2017/03/29/download-file/</url>
       <content type="html"><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>在<a href="https://zhanghanxuan123.github.io/2017/03/23/upload-file/">上一篇文章</a>中使用了Rxjava和Retrofit实现了图文上传,那么这篇文章将介绍如何使用其下载文件。</p>
